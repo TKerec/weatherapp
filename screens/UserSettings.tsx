@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
 import { TextInput, Button, Switch, Card } from 'react-native-paper';
-import { View, Text } from 'react-native';
+import { View, Text, Alert } from 'react-native';
 import Header from './Header';
+import axios from 'axios';
 
-const UserSettings = () => {
-  const [name, setName] = useState('Janez Novak');
-  const [email, setEmail] = useState('janez.novak@example.com');
-  const [password, setPassword] = useState('');
-  const [notifications, setNotifications] = useState(true);
-  const [darkMode, setDarkMode] = useState(false);
+// API naslov za klic
+const API_URL = 'http://10.0.2.2:3000/api/auth';
+
+const UserSettings = ({ route, navigation }) => {
+  const passedUser = route.params?.user || {}; //podatki prijavljenega uproabnika
+
+  const [name, setName] = useState(passedUser?.name || '');
+  const [email, setEmail] = useState(passedUser?.email || '');
 
   return (
     <View style={{ flex: 1 }}>
@@ -30,50 +33,10 @@ const UserSettings = () => {
           style={{ marginBottom: 20 }}
         />
 
-        <TextInput
-          label="Novo Geslo"
-          theme={{ colors: { primary: '#00aaff' } }}
-          secureTextEntry
-          value={password}
-          onChangeText={(text) => setPassword(text)}
-          style={{ marginBottom: 20 }}
-        />
-
-        <Card style={{ marginBottom: 20, padding: 20 }}>
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-            <Text>Obvestila</Text>
-            <Switch
-              value={notifications}
-              onValueChange={() => setNotifications(!notifications)}
-              color="#00aaff"
-            />
-          </View>
-        </Card>
-
-        <Card style={{ marginBottom: 20, padding: 20 }}>
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-            <Text>Temni Način</Text>
-            <Switch
-              value={darkMode}
-              onValueChange={() => setDarkMode(!darkMode)}
-              color="#00aaff"
-            />
-          </View>
-        </Card>
-
-        <Button
-          mode="contained"
-          theme={{ colors: { primary: '#00aaff' } }}
-          onPress={() => console.log('Changes saved')}
-          style={{ marginBottom: 20 }}
-        >
-          <Text style={{ color: 'white' }}>Shrani Spremembe</Text>
-        </Button>
-
         <Button
           mode="outlined"
           theme={{ colors: { primary: '#00aaff' } }}
-          onPress={() => console.log('User logged out')}
+          onPress={() => navigation.navigate('AuthScreen')}
         >
           <Text style={{ color: '#00aaff' }}>Odjava</Text>
         </Button>

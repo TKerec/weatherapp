@@ -1,3 +1,6 @@
+// POMEMBNO!
+// Home.tsx se ne uporablja v aplikaciji, namenjena je bila samo za simulacijo designa!
+
 import React from 'react';
 import { View, Text, Image } from 'react-native';
 import { Card } from 'react-native-paper';
